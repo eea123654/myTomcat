@@ -19,7 +19,7 @@ public class Bootstrap {
 	                return;
 	            }
 	            ServerSocket ss = new ServerSocket(port);
-	 
+	            //≤‚ ‘
 	            while(true) {
 	                Socket s =  ss.accept();
 	                InputStream is= s.getInputStream();
