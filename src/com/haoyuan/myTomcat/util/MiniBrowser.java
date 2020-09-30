@@ -1,6 +1,7 @@
 package com.haoyuan.myTomcat.util;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -110,20 +111,8 @@ public class MiniBrowser {
             pWriter.println(httpRequestString);
             InputStream is = client.getInputStream();
  
-            int buffer_size = 1024;
+            result = readBytes(is);
  
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte buffer[] = new byte[buffer_size];
-            while(true) {
-                int length = is.read(buffer);
-                if(-1==length)
-                    break;
-                baos.write(buffer, 0, length);
-                if(length!=buffer_size)
-                    break;
-            }
- 
-            result = baos.toByteArray();
             client.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,4 +126,21 @@ public class MiniBrowser {
         return result;
  
     }
+    
+    public static byte[] readBytes(InputStream is) throws IOException {
+        int buffer_size = 1024;
+        byte buffer[] = new byte[buffer_size];
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        while(true) {
+            int length = is.read(buffer);
+            if(-1==length)
+                break;
+            baos.write(buffer, 0, length);
+            if(length!=buffer_size)
+                break;
+        }
+        byte[] result =baos.toByteArray();
+        return result;
+    }    
+    
 }
